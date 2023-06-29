@@ -1,0 +1,45 @@
+#!/usr/bin/python3
+
+import sys
+
+def factorize(number):
+    """
+    Factorizes a number into a product of two smaller numbers.
+
+    Args:
+        number: The number to factorize.
+    Returns:
+        A string representing the factorization in the format "n=p*q".
+    """
+    for i in range(2, number):
+        if number % i == 0:
+            return f"{number}={i}*{number//i}"
+    return f"{number} is a prime number"
+
+
+def main():
+    """
+    Main function to read numbers from a file and factorize them.
+    """
+    if len(sys.argv) != 2:
+        print("Usage: factors <file>")
+        sys.exit(1)
+
+    filename = sys.argv[1]
+
+    try:
+        with open(filename, 'r') as file:
+            for line in file:
+                number = int(line.strip())
+                factorization = factorize(number)
+                print(factorization)
+    except FileNotFoundError:
+        print(f"Error: File '{filename}' not found.")
+        sys.exit(1)
+    except ValueError:
+        print(f"Error: Invalid number in file '{filename}'.")
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()
