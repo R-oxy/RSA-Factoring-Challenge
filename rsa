@@ -1,0 +1,45 @@
+#!/usr/bin/python3
+"""Module that Check if a number is prime"""
+import sys
+import math
+
+def is_prime(number):
+    """Check if a number is prime"""
+    if number < 2:
+        return False
+    for i in range(2, int(math.sqrt(number)) + 1):
+        if number % i == 0:
+            return False
+    return True
+
+def factorize(number):
+    """Factorizes an RSA number into two prime numbers"""
+    for i in range(2, int(math.sqrt(number)) + 1):
+        if number % i == 0 and is_prime(i) and is_prime(number // i):
+            return f"{number}={i}*{number//i}"
+    return f"No prime factorization found for {number}"
+
+
+def main():
+    """Main function to read the RSA number from a file and find its prime factorization"""
+    if len(sys.argv) != 2:
+        print("Usage: factors <file>")
+        sys.exit(1)
+
+    filename = sys.argv[1]
+
+    try:
+        with open(filename, 'r') as file:
+            number = int(file.read().strip())
+            factorization = factorize(number)
+            print(factorization)
+    except FileNotFoundError:
+        print(f"Error: File '{filename}' not found.")
+        sys.exit(1)
+    except ValueError:
+        print(f"Error: Invalid number in file '{filename}'.")
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()
