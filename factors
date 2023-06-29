@@ -1,45 +1,31 @@
 #!/usr/bin/python3
-
-import sys
+"""Factorizes a number into a product of two smaller numbers."""
+from sys import argv
 
 def factorize(number):
-    """
-    Factorizes a number into a product of two smaller numbers.
+    """"print a simple descomposition of an integer > 1"""
+    x = 2
 
-    Args:
-        number: The number to factorize.
-    Returns:
-        A string representing the factorization in the format "n=p*q".
-    """
-    for i in range(2, number):
-        if number % i == 0:
-            return f"{number}={i}*{number//i}"
-    return f"{number} is a prime number"
+    if number < 2:
+        return
+    print()
+    print(number, "<- number-bef")
+    while number % x:
+        x += 1
+    print("{:.0f}={:.0f}*{:.0f}".format(number, number / x, x))
+    print(number, "<- number-aft")
+    print()
 
+if len(argv) != 2:
+    exit()
 
-def main():
-    """
-    Main function to read numbers from a file and factorize them.
-    """
-    if len(sys.argv) != 2:
-        print("Usage: factors <file>")
-        sys.exit(1)
+try:
+    with open(argv[1]) as file:
+        line = file.readline()
 
-    filename = sys.argv[1]
-
-    try:
-        with open(filename, 'r') as file:
-            for line in file:
-                number = int(line.strip())
-                factorization = factorize(number)
-                print(factorization)
-    except FileNotFoundError:
-        print(f"Error: File '{filename}' not found.")
-        sys.exit(1)
-    except ValueError:
-        print(f"Error: Invalid number in file '{filename}'.")
-        sys.exit(1)
-
-
-if __name__ == "__main__":
-    main()
+        while line != "":
+            number = int(line.split('\n')[0])
+            factorize(number)
+            line = file.readline()
+except:
+    pass
